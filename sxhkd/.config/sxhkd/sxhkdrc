@@ -1,0 +1,74 @@
+# make sxhkd reload its configuration files:
+super + s
+  pkill -USR1 -x sxhkd
+## Wallpaper
+alt + b
+	setwallpaper
+## Music spotify-adblock
+alt + m 
+	gtk-launch spotify-adblock.desktop
+
+## screenshot with flameshot
+alt + s
+	flameshot gui 
+alt + p
+	flameshot gui -p ~/Pictures/screenshots
+#################################################################
+# multimedia
+#################################################################
+
+# pulseaudio controls speaker volume up & down
+{XF86AudioRaiseVolume, XF86AudioLowerVolume}
+    pamixer {-i 1, -d 1}; \
+    ou_vol=$(pamixer --get-volume); \
+    jack_stat=$($HOME/bin/has_headphone); \
+    [ $jack_stat = "yes" ] && icon="  Headset"; \
+    [ $jack_stat = "no" ]  && icon="  Speaker"; \
+    dunstify "$icon Output Volume: "$ou_vol -t 1000 -r 1
+
+# pulseaudio controls mic volume up & down
+shift + {XF86AudioRaiseVolume, XF86AudioLowerVolume}
+    pamixer --source 1 {-i 1, -d 1}; \
+    ou_mic=$(pamixer --source 1 --get-volume); \
+    dunstify "  Microphone Input Volume: "$ou_mic -t 1000 -r 1
+
+# pulseaudio controls mute/unmute speaker
+XF86AudioMute
+    pamixer \
+    --toggle-mute; \
+    ou_mute=$(pamixer --get-mute); \
+    jack_stat=$($HOME/bin/has_headphone); \
+    [ $jack_stat = "yes" ]   && icon_on="  Headset" icon_off="  Headset"; \
+    [ $jack_stat = "no" ]    && icon_on="  Speaker" icon_off="  Speaker"; \
+    [ $ou_mute   = "true" ]  && dunstify "$icon_off MUTED" -t 1000 -r 1; \
+    [ $ou_mute   = "false" ] && dunstify "$icon_on UNMUTED" -t 1000 -r 1
+
+# pulseaudio controls mute mic
+shift + XF86AudioMute
+    pamixer \
+    --source 1 --toggle-mute; \
+    in_mute=$(pamixer --source 1 --get-mute); \
+    [ $in_mute = "true" ]  && dunstify "  Microphone Input MUTED" -t 1000 -r 1; \
+    [ $in_mute = "false" ] && dunstify "  Microphone Input UNMUTED" -t 1000 -r 1
+
+# screen brightness controls
+{XF86MonBrightnessUp, XF86MonBrightnessDown}
+    xbacklight {-inc 5, -dec 5}; \
+    get_brightness=$(xbacklight -get | cut -f 1 -d '.'); \
+    dunstify "  Brightness: "$get_brightness -t 1000 -r 1
+
+#play
+XF86AudioPlay
+    playerctl play-pause
+
+#next
+XF86AudioNext
+    playerctl next
+
+#previous
+XF86AudioPrev
+    playerctl previous
+
+#stop
+XF86AudioStop
+    playerctl stop

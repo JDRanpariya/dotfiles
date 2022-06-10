@@ -1,0 +1,2 @@
+file=$(ls ~/Pictures/wall | shuf -n 1)
+xwallpaper --zoom ~/Pictures/wall/$file
