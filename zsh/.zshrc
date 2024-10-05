@@ -3,6 +3,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/jdranpariya/.mujoco/mujoco210/bin
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:~/go/bin
+export PATH=$PATH:/home/jdranpariya/.nvm/versions/node/v20.7.0
 
 
 alias ls="exa -l --icons"
