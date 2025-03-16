@@ -14,7 +14,8 @@ return require('packer').startup(function(use)
   }
 
   use({ 'rose-pine/neovim', as = 'rose-pine' })
-  use('sainnhe/gruvbox-material')
+--  use { "ellisonleao/gruvbox.nvim" }
+--  use('sainnhe/gruvbox-material')
   use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use('nvim-treesitter/playground')
   use('mbbill/undotree')
@@ -25,10 +26,6 @@ return require('packer').startup(function(use)
       "iamcco/markdown-preview.nvim",
       run = function() vim.fn["mkdp#util#install"]() end,
   })
-  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
-
-
-
   use {
 	  'VonHeikemen/lsp-zero.nvim',
 	  branch = 'v2.x',

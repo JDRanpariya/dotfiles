@@ -6,8 +6,8 @@ export PATH=$PATH:~/go/bin
 export PATH=$PATH:/home/jdranpariya/.nvm/versions/node/v20.7.0
 
 
-alias ls="exa -l --icons"
-alias la="exa -la --icons"
+alias ls="eza -l --icons"
+alias la="eza -la --icons"
 alias vim="nvim"
 
 export NVM_DIR="$HOME/.nvm"
