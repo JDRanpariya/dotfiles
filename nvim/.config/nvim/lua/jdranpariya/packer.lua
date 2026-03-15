@@ -7,13 +7,18 @@ return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
+  -- autoclose brackets
+  use 'm4xshen/autoclose.nvim'
+
   use {
-	  'nvim-telescope/telescope.nvim', tag = '0.1.2',
+	  -- 'nvim-telescope/telescope.nvim', tag = '0.1.8',
+	  'nvim-telescope/telescope.nvim',
 	  -- or                            , branch = '0.1.x',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
 
-  use({ 'rose-pine/neovim', as = 'rose-pine' })
+  use({ 'rose-pine/neovim', name = 'rose-pine' })
+  use('Glench/Vim-Jinja2-Syntax')
 --  use { "ellisonleao/gruvbox.nvim" }
 --  use('sainnhe/gruvbox-material')
   use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})

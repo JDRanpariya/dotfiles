@@ -6,8 +6,10 @@ export PATH=$PATH:~/go/bin
 export PATH=$PATH:/home/jdranpariya/.nvm/versions/node/v20.7.0
 
 
-alias ls="eza -l --icons"
-alias la="eza -la --icons"
+# Eza
+alias ls="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
+alias ltree="eza --tree --level=2  --icons --git"
 alias vim="nvim"
 
 export NVM_DIR="$HOME/.nvm"
@@ -16,18 +18,36 @@ export NVM_DIR="$HOME/.nvm"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/jdranpariya/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/Users/jdranpariya/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/jdranpariya/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/jdranpariya/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/Users/jdranpariya/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/jdranpariya/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/jdranpariya/miniconda3/bin:$PATH"
+        export PATH="/Users/jdranpariya/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
-export CONDA_CHANGEPS1=false
 # <<< conda initialize <<<
 
+
+if [[ "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select" || \
+      "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select-wrapped" ]]; then
+    zle -N zle-keymap-select "";
+fi
+
 eval "$(starship init zsh)"
+
+bindkey jk vi-cmd-mode
+eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
+
+# bun completions
+[ -s "/Users/jdranpariya/.bun/_bun" ] && source "/Users/jdranpariya/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+export TEXINPUTS=".:/Users/jdranpariya/sTeX//:$TEXINPUTS"
