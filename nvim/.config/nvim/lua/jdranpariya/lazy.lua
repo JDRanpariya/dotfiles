@@ -54,11 +54,16 @@ require("lazy").setup({
 
     -- Markdown preview
     {
-        "iamcco/markdown-preview.nvim",
-        build = "cd app && npm install",
-        ft = { "markdown" },
+        "selimacerbas/markdown-preview.nvim",
+        dependencies = { "selimacerbas/live-server.nvim" },
         config = function()
-            vim.g.mkdp_filetypes = { "markdown" }
+            require("markdown_preview").setup({
+                -- all optional; sane defaults shown
+                instance_mode = "takeover",  -- "takeover" (one tab) or "multi" (tab per instance)
+                port = 0,                    -- 0 = auto (8421 for takeover, OS-assigned for multi)
+                open_browser = true,
+                debounce_ms = 300,
+            })
         end,
     },
 
@@ -79,7 +84,7 @@ require("lazy").setup({
         opts = {
             keymap = { preset = "default" },
             appearance = {
-                use_nvim_highlight_groups = true,
+                use_nvim_cmp_as_default = true,
             },
             sources = {
                 default = { "lsp", "path", "snippets", "buffer" },
