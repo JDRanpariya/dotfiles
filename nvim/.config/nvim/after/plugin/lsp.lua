@@ -1,51 +1,75 @@
-local lsp = require('lsp-zero').preset({})
-
-lsp.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
-  lsp.default_keymaps({buffer = bufnr})
-end)
-
--- HTML LSP server (works with .njk via htmldjango)
-require('lspconfig').html.setup({
-  filetypes = { "html", "htmldjango", "njk" }
+-- ─── Mason ────────────────────────────────────────────────────────────────────
+require("mason").setup({
+    PATH = "append",
 })
 
-require("lspconfig").ltex.setup({
-  settings = {
-    ltex = { language = "en-US" }
-  }
+require("mason-lspconfig").setup({
+    ensure_installed = {
+        "lua_ls",
+        "html",
+        "ltex",
+        "pyright",
+    },
+    automatic_installation = true,
 })
 
--- (Optional) Configure lua language server for neovim
-require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+-- ─── Shared on_attach ─────────────────────────────────────────────────────────
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspAttach", { clear = true }),
+    callback = function(event)
+        local map = function(keys, func, desc)
+            vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+        end
 
-lsp.setup()
-
-require('mason').setup({
-  PATH = "append"
+        map("gd",         vim.lsp.buf.definition,    "Go to Definition")
+        map("gD",         vim.lsp.buf.declaration,   "Go to Declaration")
+        map("gr",         vim.lsp.buf.references,    "References")
+        map("gi",         vim.lsp.buf.implementation,"Go to Implementation")
+        map("K",          vim.lsp.buf.hover,         "Hover Docs")
+        map("<leader>rn", vim.lsp.buf.rename,        "Rename")
+        map("<leader>ca", vim.lsp.buf.code_action,   "Code Action")
+        map("<leader>f",  vim.lsp.buf.format,        "Format")
+        map("[d",         vim.diagnostic.goto_prev,  "Prev Diagnostic")
+        map("]d",         vim.diagnostic.goto_next,  "Next Diagnostic")
+        map("<leader>e",  vim.diagnostic.open_float, "Show Diagnostic")
+    end,
 })
 
--- You need to setup `cmp` after lsp-zero
-local cmp = require('cmp')
-local cmp_action = require('lsp-zero').cmp_action()
+-- ─── Capabilities (from blink.cmp) ────────────────────────────────────────────
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-cmp.setup({
-  mapping = {
-    -- `Enter` key to confirm completion
-    ['<CR>'] = cmp.mapping.confirm({select = false}),
+-- ─── Server configs (vim.lsp.config — Neovim 0.11+) ──────────────────────────
 
-    -- Ctrl+Space to trigger completion menu
-    ['<C-Space>'] = cmp.mapping.complete(),
-
-    -- Alt+f to navigate down
-    ['<Tab>'] = cmp_action.luasnip_supertab(),
-
-    -- Alt+j to navigate down
-    ['<S-Tab>'] = cmp_action.luasnip_shift_supertab(),
-
-    -- Navigate between snippet placeholder
-    ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-  }
+vim.lsp.config("lua_ls", {
+    capabilities = capabilities,
+    settings = {
+        Lua = {
+            runtime = { version = "LuaJIT" },
+            workspace = {
+                checkThirdParty = false,
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            diagnostics = { globals = { "vim" } },
+            telemetry = { enable = false },
+        },
+    },
 })
+
+vim.lsp.config("html", {
+    capabilities = capabilities,
+    filetypes = { "html", "htmldjango", "njk" },
+})
+
+vim.lsp.config("ltex", {
+    capabilities = capabilities,
+    settings = {
+        ltex = { language = "en-US" },
+    },
+})
+
+vim.lsp.config("pyright", {
+    capabilities = capabilities,
+})
+
+-- Enable all configured servers
+vim.lsp.enable({ "lua_ls", "html", "ltex", "pyright" })

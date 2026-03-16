@@ -28,3 +28,4 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
+vim.opt.colorcolumn = "80" -- now actually renders (was styled but never set)

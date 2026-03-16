@@ -1,3 +1,3 @@
 require("jdranpariya.remap")
-require("jdranpariya.packer")
+require("jdranpariya.lazy")
 require("jdranpariya.set")
