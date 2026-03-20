@@ -1,4 +1,4 @@
-# Dotfiles for Nerds
+# My Dotfiles
 
 ### Supported OS
 - None as of now
