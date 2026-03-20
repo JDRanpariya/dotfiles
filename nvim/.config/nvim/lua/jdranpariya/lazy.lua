@@ -2,6 +2,7 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
+vim.fn.search()
         "git", "clone", "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
         "--branch=stable", lazypath,
@@ -115,7 +116,7 @@ require("lazy").setup({
     "stevearc/oil.nvim",
     lazy = false,   -- load at startup so it can handle `nvim .`
     keys = {
-        { "<leader>e", "<cmd>Oil<CR>", desc = "Open file explorer (Oil)" },
+        { "<leader>dir", "<cmd>Oil<CR>", desc = "Open file explorer (Oil)" },
     },
     opts = {
         view_options = { show_hidden = true },
