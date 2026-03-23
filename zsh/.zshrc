@@ -20,14 +20,14 @@ export NVM_DIR="$HOME/.nvm"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/jdranpariya/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/jdranpariya/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/jdranpariya/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/jdranpariya/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/jdranpariya/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/jdranpariya/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/jdranpariya/miniconda3/bin:$PATH"
+        export PATH="/home/jdranpariya/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -53,3 +53,14 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
 export TEXINPUTS=".:/Users/jdranpariya/sTeX//:$TEXINPUTS"
+
+# claude code
+export ANTHROPIC_BASE_URL="https://fhgenie.fraunhofer.de/v1"
+export ANTHROPIC_AUTH_TOKEN="JVHyyAHI5CdiARCPPEDrjcu7TqeGbNK2"
+export ANTHROPIC_MODEL="Qwen/Qwen3-Coder-Next-FP8"
+
+# Disable prompt caching - open models don't support it
+export DISABLE_PROMPT_CACHING=1
+
+# opencode
+export PATH=/home/jdranpariya/.opencode/bin:$PATH
