@@ -357,3 +357,19 @@ require("lazy").setup({
     checker = { enabled = true, notify = false }, -- silent background update checks
     change_detection = { notify = false },         -- don't nag about config changes
 })
+
+-- only apply in WSL2
+if vim.fn.has("wsl") == 1 then
+  vim.g.clipboard = {
+    name = "clip.exe",
+    copy = {
+      ["+"] = "clip.exe",
+      ["*"] = "clip.exe",
+    },
+    paste = {
+      ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw))',
+      ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw))',
+    },
+    cache_enabled = 0,
+  }
+end
